@@ -37,6 +37,9 @@ main#board{
 	outline:4px solid #00FF00;
 	content:"";
 }
+.peg.possible{
+	background:#00FF00
+}
 .peg::before{
 	content:attr(i);
 	font-family:sans;
