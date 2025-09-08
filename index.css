@@ -9,8 +9,24 @@ body{
 	align-items:center;
 	min-height:100vh;
 	flex-direction:column;
+  font-family:sans;
+}
+button{
+  background:white;
+  border:1px solid #8a8a8a;
+  cursor:pointer;
+  padding:0.5rem;
+  display:flex;
+  flex-direction:row;
+  gap:1rem;
+  border-radius:0.5rem;
+  transition:300ms all;
+}
+button:hover{
+  background:#f1f1f1;
 }
 .buttons{
+  text-align:center;
   display:grid;
   grid-template-columns:1fr 1fr;
   width:100%;
@@ -70,12 +86,12 @@ main#board::after{
 
 .peg.selected::after{
 	position:absolute;
-	outline:4px solid #00FF00;
+	outline:4px solid lime;
 	content:"";
 }
 .peg.possible{
   cursor:pointer;
-	background:#00FF00;
+	background:lime;
 }
 .peg::before{
 	content:attr(i);

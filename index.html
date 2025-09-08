@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" async />
 		<title>Peg solitaire</title>
 		<script src='index.js' defer async></script>
 		<link rel="stylesheet" href="index.css">
@@ -10,14 +11,22 @@
 		<main id="board">
 		</main>
 		<div class='dashboard'>
-			<p id="moveCount">0</p>
+			<div class='buttons'>
+        <p>Possible moves:
+        <span id="possibleMovesCountSpan"></span>
+       </p>
+        <p>
+          Peg count:
+        <span id='pegCountSpan'></span>
+      </p>
+      </div>
       <div class="rotate buttons">			
-        <button id="rotateLeftButton">left</button>
-        <button id="rotateRightButton">right</button>
+        <button id="rotateLeftButton"><i class="ti ti-rotate-clockwise"></i>rotate clockwise</button>
+        <button id="rotateRightButton"><i class="ti ti-rotate"></i>counter-clockwise</button>
       </div>
       <div class="game buttons">
-        <button id="resetButton">reset</button>
-        <button id="undoButton">undo</button>
+        <button id="resetButton"><i class="ti ti-restore"></i>reset board</button>
+        <button id="undoButton"><i class="ti ti-arrow-back-up"></i>undo move</button>
       </div>
 		</div>
 	</body>
