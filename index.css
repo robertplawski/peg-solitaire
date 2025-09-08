@@ -1,0 +1,60 @@
+*{
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+body{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	min-height:100vh;
+}
+main#board{
+	display:flex;
+	flex-direction:column;
+	gap:1rem;
+}
+.row{
+	display:flex;
+	flex-direction:row;
+	gap:1rem;
+	justify-content:center;
+}
+.peg{
+	height:2rem;
+	width:2rem;
+	background: #cacaca;
+	border-radius:50%;
+	box-shadow: 0 0 0.25rem black inset;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+.peg.on::after{
+	scale:1
+}
+.peg.selected{
+	outline:4px solid #00FF00;
+	content:"";
+}
+.peg::before{
+	content:attr(i);
+	font-family:sans;
+	position:absolute;
+	color:white;
+	z-index: 10
+}
+.peg::after{
+
+	transition: 300ms scale;
+	height:2rem;
+	content: "";
+	width:2rem;
+	scale:0;
+	border-radius:50%;
+	display:block;
+	cursor:grab;
+	background:crimson;
+	box-shadow: -0.25rem -0.25rem 0 black inset;
+
+}
