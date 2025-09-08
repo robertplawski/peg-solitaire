@@ -11,6 +11,16 @@ body{
 	flex-direction:column;
 }
 .buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  width:100%;
+  flex:1;
+  gap:0.5rem;
+}
+.dashboard{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0.5rem;
 	translate:0 10rem;
 }
 main#board{

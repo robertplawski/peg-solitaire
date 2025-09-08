@@ -2,15 +2,6 @@ let selectedPeg = null;
 
 let moves = [];
 
-undoButton.onclick = () => {
-  const popped = moves.pop();
-  if (!popped) {
-    return;
-  }
-  const { origin, center, target } = popped;
-  makeMove(target, center, origin, true)
-}
-
 resetButton.onclick = () => {
   board.innerHTML = "";
   selectedPeg = null;
@@ -35,21 +26,16 @@ const getPegCoordinates = (peg) => {
   return { x: parseInt(peg.getAttribute("x")), y: parseInt(peg.getAttribute("y")) };
 }
 
-const makeMove = (origin, center, target, undo = false) => {
-
-  if (!undo && origin != selectedPeg) {
+const makeMove = (origin, center, target) => {
+  if (origin != selectedPeg) {
     return;
   }
-  if (!undo) {
-    moves.push({ origin, center, target });
-  }
+
+  moves.push({ origin, center, target });
+
   hidePossibleMoves();
   origin.classList.remove("on");
-  if (!undo) {
-    center.classList.remove("on");
-  } else {
-    center.classList.add("on");
-  }
+  center.classList.remove("on");
   target.classList.add("on");
   calculateMoveCount();
 }
