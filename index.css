@@ -51,6 +51,8 @@ main#board::after{
 	justify-content:center;
 }
 .peg{
+  outline:0px;
+	transition: 300ms scale, 300ms background, 300ms outline;
 	height:2rem;
 	width:2rem;
 	background: #4a4a4a;
@@ -61,15 +63,19 @@ main#board::after{
 	align-items:center;
 }
 .peg.on::after{
-	scale:1
+	scale:1;
+
+	transition:  150ms outline;
 }
+
 .peg.selected::after{
 	position:absolute;
 	outline:4px solid #00FF00;
 	content:"";
 }
 .peg.possible{
-	background:#00FF00
+  cursor:pointer;
+	background:#00FF00;
 }
 .peg::before{
 	content:attr(i);
@@ -87,7 +93,7 @@ main#board::after{
 	scale:0;
 	border-radius:50%;
 	display:block;
-	cursor:grab;
+	cursor:pointer;
 	background:crimson;
 	box-shadow: -0.25rem -0.25rem 0 black inset;
 

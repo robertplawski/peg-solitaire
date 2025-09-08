@@ -1,7 +1,10 @@
-let selectedPeg = null;
+// TODO please create a layer of separation between DOM and game logic - to increase performance
 
-let moves = [];
 
+// init vars
+let selectedPeg, moves;
+
+// dashboard buttons...
 undoButton.onclick = () => {
   const popped = moves.pop();
   if (!popped) {
@@ -12,9 +15,6 @@ undoButton.onclick = () => {
 }
 
 resetButton.onclick = () => {
-  board.innerHTML = "";
-  selectedPeg = null;
-  moves = [];
   init();
 }
 
@@ -26,12 +26,10 @@ rotateRightButton.onclick = () => {
 }
 
 const hidePossibleMoves = () => {
-  //document.querySelectorAll("*").forEach((el)=>el.onclick=null)
   Array.from(document.querySelectorAll(".possible")).forEach((el) => el.classList.remove("possible"))
 }
 
-
-const getPegCoordinates = (peg) => {
+const getPegPos = (peg) => {
   return { x: parseInt(peg.getAttribute("x")), y: parseInt(peg.getAttribute("y")) };
 }
 
@@ -56,32 +54,21 @@ const makeMove = (origin, center, target, undo = false) => {
 
 
 const calculateMovesAtPosition = (x, y) => {
-
-
+  const offsets = [-2, 2];
   return [
-    [-2, 2].map((offset) => { return { origin: getPegAt(x, y), center: getPegAt(x + parseInt(offset / 2), y), target: getPegAt(x + offset, y) } }),
-    [-2, 2].map((offset) => { return { origin: getPegAt(x, y), center: getPegAt(x, y + offset / 2), target: getPegAt(x, y + offset) } })
+    offsets.map((offset) => { return { origin: getPegAt(x, y), center: getPegAt(x + parseInt(offset / 2), y), target: getPegAt(x + offset, y) } }),
+    offsets.map((offset) => { return { origin: getPegAt(x, y), center: getPegAt(x, y + offset / 2), target: getPegAt(x, y + offset) } })
   ].flat().filter((move) => move.origin && move.origin.classList.contains("on") && move.center && move.target && move.center.classList.contains("on") && !move.target.classList.contains("on"))
-  /*{origin:getPegByCoordinates(x,y), center:getPegByCoordinates(x+1,y),target:getPegByCoordinates(x+2,y)}) 
-];*/
-  //const move = {origin,center,target}
 }
 
-const calculatePegsAtOffsets = (x, y, offsets = [2, -2]) => [offsets.map(offset => getPegByCoordinates(x + offset, y)), offsets.map(offset => getPegByCoordinates(x, y + offset))].flat();
 
 const showPossibleMoves = (peg) => {
-
-  const { x, y } = getPegCoordinates(peg);
-
-  // x+2 y+2 x-2 y-2
-
+  const { x, y } = getPegPos(peg);
   let possibleMoves = calculateMovesAtPosition(x, y);
-
-  //possibleMoves = possibleMoves.filter(el=>el && !el.classList.contains("on"))
-  possibleMoves.forEach(({ target }) => target.classList.add("possible"))
-
-  possibleMoves.forEach(({ target, origin, center }) => target.addEventListener("click", () => makeMove(origin, center, target)))
-
+  possibleMoves.forEach(({ target, origin, center }) => {
+    target.classList.add("possible")
+    target.addEventListener("click", () => makeMove(origin, center, target))
+  })
 }
 
 const setSelectedPeg = (peg) => {
@@ -91,16 +78,13 @@ const setSelectedPeg = (peg) => {
   if (selectedPeg) {
     selectedPeg.classList.remove("selected");
   }
-
   hidePossibleMoves();
   selectedPeg = peg
   selectedPeg.classList.add("selected");
-
   showPossibleMoves(peg);
-
 }
 
-const getPegByCoordinates = (x, y) => {
+const getPegAt = (x, y) => {
   return document.querySelector(`[x="${x}"][y="${y}"]`)
 }
 
@@ -112,13 +96,13 @@ const calculateMoveCount = () => {
       if (peg.classList.contains("on")) {
         pegCount++;
       }
-      const { x, y } = getPegCoordinates(peg)
+      const { x, y } = getPegPos(peg)
       result += calculateMovesAtPosition(x, y).length
     })
   })
 
 
-  moveCount.innerText = `possible moves: ${result}, peg count: ${pegCount}`; //Array.from(board.children).map((el)=>showPossibleMoves(el)).length
+  moveCount.innerText = `possible moves: ${result}, peg count: ${pegCount}`;
   if (result != 0) {
     return;
 
@@ -130,8 +114,11 @@ const calculateMoveCount = () => {
   alert("Wygrałeś!");
 }
 
-const getPegAt = getPegByCoordinates
 const init = () => {
+  board.innerHTML = "";
+  selectedPeg = null;
+  moves = [];
+
   let rowHeight = 2;
   let rowLength = 2;
   let i = 0;
@@ -149,7 +136,6 @@ const init = () => {
         peg.classList.add("on");
         peg.setAttribute('x', x - (special ? 2 : 0))
         peg.setAttribute('y', y + j + (j > 0 ? 1 : 0) + (j > 1 ? 2 : 0));
-        //		peg.setAttribute('i', `${peg.getAttribute('x')}:${peg.getAttribute('y')}`);
         row.appendChild(peg)
         peg.addEventListener("click", () => setSelectedPeg(peg)); i++;
       }
@@ -157,7 +143,8 @@ const init = () => {
     }
   }
 
-  getPegByCoordinates(1, 3).classList.remove("on");
+  // center should be empty - as per rules of the game.
+  getPegAt(1, 3).classList.remove("on");
 
   calculateMoveCount()
 }
