@@ -12,6 +12,7 @@ A simple Peg Solitaire game in plain HTML, CSS, and JavaScript. No libraries req
 - Classic 7x7 board
 - Valid move highlighting
 - Board rotation buttons
+- Move and peg count
 
 ## Usage
 
