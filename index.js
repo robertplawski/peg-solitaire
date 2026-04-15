@@ -146,4 +146,39 @@ const init = () => {
 
   calculateMoveCount()
 }
+
+const popupRoot = document.getElementById("popup-root");
+const popupBackground = popupRoot.querySelector(".popup-background")
+const popupContent = popupRoot.querySelector(".popup-content")
+
+function closePopup(){
+	popupBackground.classList.remove("visible");
+	
+}
+
+addEventListener("keydown",(e)=>e.key == "Escape" ? closePopup() : null)
+
+function showPopup(title, content){
+	popupBackground.classList.add("visible");
+	popupBackground.onclick = closePopup;
+	popupContent.innerHTML = `<p class='title'>${title}</p><div>${content}</div>`
+}
+
+function showGameWalkthroughInfo(){
+	const title = "<strong >Jak grać w Samotnika?</strong>";
+    const content = `
+        <strong>Cel gry:</strong> Zostawić na planszy tylko jeden pionek, najlepiej w samym centrum.<br><br>
+        <strong>Zasady:</strong><ul style="text-align: left; margin-top: 10px;">
+            <li>Pionek bije innego pionka, przeskakując nad nim w pionie lub poziomie na wolne pole.</li>
+            <li>Zbity pionek zostaje usunięty z planszy.</li>
+            <li>Nie można poruszać się po skosie ani przeskakiwać nad pustymi polami.</li>
+        </ul>
+	<br>
+        <strong>Wskazówka:</strong> Planuj ruchy tak, aby nie zostawiać pojedynczych pionków w rogach – trudno je potem "odebrać"!
+	<br><br><p style='text-align:center;font-weight:700'>Powodzenia! (kliknij gdziekolwiek na ekranie lub ESC aby kontynuować)</p>
+    `;
+showPopup(title, content);
+}
+
 init()
+showGameWalkthroughInfo();
